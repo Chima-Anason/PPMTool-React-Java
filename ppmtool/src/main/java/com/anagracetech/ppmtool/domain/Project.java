@@ -72,7 +72,7 @@ public class Project {
     }
 
     public void setProjectIdentifier(String projectIdentifier) {
-        this.projectIdentifier = projectIdentifier;
+        this.projectIdentifier = projectIdentifier.toUpperCase();
     }
 
     public String getDescription() {
