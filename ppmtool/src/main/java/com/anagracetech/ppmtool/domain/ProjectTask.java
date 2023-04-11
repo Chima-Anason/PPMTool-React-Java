@@ -11,14 +11,14 @@ public class ProjectTask {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(updatable = false)
     private String projectSequence;
     @NotBlank(message = "Please include a project summary")
     private String summary;
     private String acceptanceCriteria;
     private String status;
-    private int priority;
+    private Integer priority;
     private Date dueDate;
 
     //MantToOne with Backlog
