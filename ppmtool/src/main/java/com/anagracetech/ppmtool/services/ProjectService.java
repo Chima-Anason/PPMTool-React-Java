@@ -1,7 +1,9 @@
 package com.anagracetech.ppmtool.services;
 
+import com.anagracetech.ppmtool.domain.Backlog;
 import com.anagracetech.ppmtool.domain.Project;
 import com.anagracetech.ppmtool.exceptions.ProjectIdException;
+import com.anagracetech.ppmtool.repositories.BacklogRepository;
 import com.anagracetech.ppmtool.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,12 +13,28 @@ import java.util.Locale;
 @Service
 public class ProjectService {
 
-    @Autowired
     private ProjectRepository projectRepository;
+    private BacklogRepository backlogRepository;
+
+    public ProjectService(ProjectRepository projectRepository, BacklogRepository backlogRepository) {
+        this.projectRepository = projectRepository;
+        this.backlogRepository = backlogRepository;
+    }
 
     public Project saveOrUpdateProject(Project project){
 
         try{
+
+            if(project.getId() == null){
+                Backlog backlog = new Backlog();
+                project.setBacklog(backlog);
+                backlog.setProject(project);
+                backlog.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+            }
+
+            if(project.getId()!= null){
+                project.setBacklog(backlogRepository.findByProjectIdentifier(project.getProjectIdentifier().toUpperCase()));
+            }
             return projectRepository.save(project);
         }catch (Exception ex){
            throw new ProjectIdException("Project ID '"+ project.getProjectIdentifier()+"' already exist!");
