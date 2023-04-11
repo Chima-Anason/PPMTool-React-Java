@@ -1,5 +1,6 @@
 package com.anagracetech.ppmtool.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -21,21 +22,28 @@ public class ProjectTask {
     private Integer priority;
     private Date dueDate;
 
-    //MantToOne with Backlog
     @Column(updatable = false)
     private String projectIdentifier;
+
+    //ManyToOne with Backlog
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "backlog_id", updatable = false, nullable = false)
+    @JsonIgnore
+    private Backlog backlog;
     private Date created_At;
     private Date updated_At;
 
     public ProjectTask() {
     }
 
-    public long getId() {
+    //Getter and Setters
+
+
+    public Long getId() {
         return id;
     }
 
-
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -71,11 +79,11 @@ public class ProjectTask {
         this.status = status;
     }
 
-    public int getPriority() {
+    public Integer getPriority() {
         return priority;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(Integer priority) {
         this.priority = priority;
     }
 
@@ -93,6 +101,14 @@ public class ProjectTask {
 
     public void setProjectIdentifier(String projectIdentifier) {
         this.projectIdentifier = projectIdentifier;
+    }
+
+    public Backlog getBacklog() {
+        return backlog;
+    }
+
+    public void setBacklog(Backlog backlog) {
+        this.backlog = backlog;
     }
 
     public Date getCreated_At() {
