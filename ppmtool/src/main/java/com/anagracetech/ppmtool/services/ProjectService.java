@@ -13,8 +13,8 @@ import java.util.Locale;
 @Service
 public class ProjectService {
 
-    private ProjectRepository projectRepository;
-    private BacklogRepository backlogRepository;
+    private final ProjectRepository projectRepository;
+    private final BacklogRepository backlogRepository;
 
     public ProjectService(ProjectRepository projectRepository, BacklogRepository backlogRepository) {
         this.projectRepository = projectRepository;
